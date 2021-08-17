@@ -1,0 +1,19 @@
+{
+    "name": "omid/wp-plugin-starter",
+    "description": "This is an educational plugin and an example to produce any other plugin.",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "omidhoseini",
+            "email": "webbmakerr@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Inc\\": "./inc"
+        }
+    }
+}
