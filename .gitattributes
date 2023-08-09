@@ -1,4 +1,4 @@
-inc/assets/* linguist-vendored
-inc/assets/* linguist-vendored
+includes/assets/* linguist-vendored
+includes/assets/* linguist-vendored
 *.html linguist-detectable=false
 *.css linguist-detectable=false

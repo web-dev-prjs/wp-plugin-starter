@@ -1,54 +1,33 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase.
+
 /**
- * WP Plugin Starter
+ * The plugin bootstrap file.
  *
- * @package   wpPluginStarter
- * @category  plugin
- * @link      https://github.com/omidhoseini/wp-plugin-starter
- * @author    webbmakerr
- * @copyright Copyright (c) 2021, webbmakerr.
- * @license   GPL v2 or later
- *
+ * @package    wp-plugin-starter
+ * @copyright  Copyright (c) 2023, omidhosseini (as webbmakerr).
  * @wordpress-plugin
- * Plugin Name:       WP Plugin Starter
- * Plugin URI:        https://github.com/omidhoseini/wp-plugin-starter
- * Description:       This is an educational plugin and an example to produce any other plugin.
- * Version:           1.0.0
- * Requires at least: 5.8
- * Requires PHP:      5.6
- * Author:            webbmakerr
- * Author URI:        https://webbmakerr.info
- * License:           GPL v2 or later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Update URI:        https://github.com/omidhoseini/wp-plugin-starter
- * Text Domain:       wp-plugin-starter
- * Domain Path:       /lang
+ * Plugin Name: WP Plugin Starter
+ * Plugin URI: https://github.com/web-dev-prjs/wp-plugin-starter
+ * Description: A boilerplate with the developmental purpose of any other WordPress plugin in less time.
+ * Version: 1.0.0
+ * Requires at least: 6.3
+ * Requires PHP: 8.0.27
+ * Author: Omid Hosseini
+ * Author URI: https://omidhosseini.info
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Update URI: https://github.com/web-dev-prjs/wp-plugin-starter
+ * Text Domain: wp-plugin-starter
+ * Domain Path: /language
  */
 
 // Security Note: Blocks direct access to the PHP files.
-\defined( 'ABSPATH' ) || die;
+defined( 'ABSPATH' ) || exit;
 
-// Define and insert all require files.
-if ( file_exists( \dirname( __FILE__ ) . '/vendor/autoload.php' ) ) :
-	require_once \dirname( __FILE__ ) . '/vendor/autoload.php';
-endif;
+const PLUGIN_FILE = __FILE__;
 
-// Activate plugin.
-register_activation_hook(
-	__FILE__,
-	function() {
-		Inc\Base\Activate::activate();
-	}
-);
+define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-// Deactivate plugin.
-register_deactivation_hook(
-	__FILE__,
-	function() {
-		Inc\Base\Deactivate::deactivate();
-	}
-);
-
-if ( class_exists( 'Inc\\Init' ) ) :
-	Inc\Init::register_services();
-endif;
+require_once __DIR__ . '/init.php';

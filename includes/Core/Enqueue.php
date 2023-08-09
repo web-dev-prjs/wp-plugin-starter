@@ -1,0 +1,156 @@
+<?php
+
+/**
+ * Enqueues styles and scripts.
+ *
+ * @package wp-plugin-starter
+ */
+
+namespace WPS\Core;
+
+use Exception;
+use WP_Error;
+use WPS\Helper;
+
+/**
+ * Enqueue class.
+ *
+ * @since 1.0.0
+ */
+final class Enqueue {
+
+	/**
+	 * The register function
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public function register(): void {
+
+		// Hooks all backend (admin) styles and scripts.
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue' ) );
+	}
+
+	/**
+	 * Enqueue all our scripts inside admin dashboard.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public function admin_enqueue(): void {
+
+		$enqueues = array(
+			// All stylesheets of plugin.
+			'style'  => array(
+				'admin-npm-bootstrap'   => array( // Bootstrap styles.
+					'enqueue' => false,
+					'url'     => PLUGIN_URL . 'node_modules/bootstrap/dist/css/bootstrap.min.css',
+					'version' => '5.3.0'
+				),
+				'admin-npm-fontawesome' => array( // Fontawesome styles.
+					'enqueue' => false,
+					'url'     => PLUGIN_URL . 'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
+					'version' => '6.3.0'
+				),
+				'admin'                 => array( // Plugin styles.
+					'enqueue'    => true,
+					'filename'   => 'styles.admin.css',
+					'dependency' => array(
+						PLUGIN_PREFIX . '-admin-npm-bootstrap',
+						PLUGIN_PREFIX . '-admin-npm-fontawesome',
+					)
+				),
+				// Additional styles go here.
+			),
+			// All scripts of plugin.
+			'script' => array(
+				'admin-npm-bootstrap'        => array( // Bootstrap scripts.
+					'enqueue' => false,
+					'url'     => PLUGIN_URL . 'node_modules/bootstrap/dist/js/bootstrap.min.js',
+					'version' => '5.3.0'
+				),
+				'admin-npm-bootstrap-bundle' => array( // Bootstrap bundle scripts.
+					'enqueue' => false,
+					'url'     => PLUGIN_URL . 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+					'version' => '5.3.0'
+				),
+				'admin'                      => array( // Plugin scripts.
+					'enqueue'    => true,
+					'filename'   => 'scripts.admin.js',
+					'dependency' => array(
+						'jquery',
+						PLUGIN_PREFIX . '-admin-npm-bootstrap',
+						PLUGIN_PREFIX . '-admin-npm-bootstrap-bundle',
+					),
+					'in_footer'  => true
+				),
+				// Additional scripts go here.
+			)
+		);
+
+		if ( Helper::this_plugin() ) {
+			self::enqueue_generator( $enqueues );
+		}
+	}
+
+	/**
+	 * Generates stylesheet/script.
+	 *
+	 * @see   wp_register_style(), wp_enqueue_style(), wp_register_script(), wp_enqueue_script()
+	 *
+	 * @param array $enqueues An array of stylesheet and scripts. includes =>
+	 *                        Type: string $handle Name of the stylesheet/script. Should be unique.
+	 *                        type: string $filename Path of the stylesheet relative to the plugin assets directory.
+	 *                        Type: array $dependency An array of registered stylesheet/script handles this stylesheet/script depends on.
+	 *                        Type: string $version String specifying script version number.
+	 *                        Type: string $media The media for which this stylesheet has been defined.
+	 *                        Type: string $in_footer Whether to enqueue the script before the body tag closes.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	private static function enqueue_generator( array $enqueues ): void {
+
+		try {
+			foreach ( $enqueues as $type => $enqueue ) {
+				foreach ( $enqueue as $handle => $param ) {
+					$handle = PLUGIN_PREFIX . "-$handle";
+
+					switch ( $type ) {
+						case 'style':
+							wp_register_style(
+								$handle,
+								$param['url'] ?? PLUGIN_ASSETS . "css/{$param['filename']}",
+								$param['dependency'] ?? array(),
+								$param['version'] ?? PLUGIN_VERSION,
+								$param['media'] ?? 'all',
+							);
+
+							if ( $param['enqueue'] ) {
+								wp_enqueue_style( $handle );
+							}
+
+							break;
+
+						case 'script':
+							wp_register_script(
+								$handle,
+								$param['url'] ?? PLUGIN_ASSETS . "js/{$param['filename']}",
+								$param['dependency'] ?? array(),
+								$param['version'] ?? PLUGIN_VERSION,
+								$param['in_footer'] ?? false,
+							);
+
+							if ( $param['enqueue'] ) {
+								wp_enqueue_script( $handle );
+							}
+
+							break;
+					}
+				}
+			}
+		} catch ( Exception $e ) {
+			new WP_Error( $e->getCode(), $e->getMessage() );
+		}
+	}
+}

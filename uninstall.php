@@ -1,10 +1,28 @@
-<?php // phpcs:ignore WordPress.Files.FileName.NotHyphenatedLowercase.
+<?php
+
 /**
- * Uninstall file
+ * Uses for when uninstalling this plugin.
+ * Such as removing related tables from a database, or any other required actions.
  *
- * @package    wpPluginStarter
- * @category   class
- * @author     webbmakerr
- * @since      1.0.0
- * @copyright  Copyright (c) 2021, webbmakerr.
+ * @package wp-plugin-starter
  */
+
+defined( 'WP_UNINSTALL_PLUGIN' ) || die;
+
+/**
+ * Uninstall class.
+ *
+ * @since 1.0.0
+ */
+final class Uninstall {
+
+	/**
+	 * Runs in the uninstallation time.
+	 *
+	 * @return void
+	 * @since 1.0.0
+	 */
+	public static function uninstall(): void {
+		//
+	}
+}
