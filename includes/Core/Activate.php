@@ -24,5 +24,7 @@ final class Activate {
 	public static function activate(): void {
 
 		flush_rewrite_rules();
+
+		get_option( PLUGIN_ALL_OPTIONS ) or add_option( PLUGIN_ALL_OPTIONS, array() );
 	}
 }
