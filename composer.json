@@ -11,8 +11,9 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": "^8.0.27",
-    "php-di/php-di": "dev-master"
+    "php": "^8.0",
+    "php-di/php-di": "dev-master",
+    "twig/twig": "^3.0"
   },
   "autoload": {
     "psr-4": {
