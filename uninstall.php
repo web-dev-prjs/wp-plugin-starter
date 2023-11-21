@@ -23,6 +23,8 @@ final class Uninstall {
 	 * @since 1.0.0
 	 */
 	public static function uninstall(): void {
-		//
+
+		// Deletes all the plugin options, when uninstall the plugin.
+		delete_option( PLUGIN_ALL_OPTIONS );
 	}
 }
