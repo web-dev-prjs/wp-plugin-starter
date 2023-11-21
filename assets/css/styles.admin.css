@@ -16,3 +16,28 @@ body {
 *, ::after, ::before {
     box-sizing: border-box;
 }
+
+/* ========== Responsive Mode START ========== */
+@media only screen and (min-width: 1365px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 1024px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 925px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 834px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 768px) {
+    /* Styles goes here... */
+}
+
+@media only screen and (min-width: 576px) {
+    /* Styles goes here... */
+}
