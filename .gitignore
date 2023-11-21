@@ -8,11 +8,8 @@ wp-content/*
 !wp-content/plugins/
 !wp-content/themes/
 
-# ignore these plugins
-wp-content/plugins/hello.php
-
-# ignore specific themes
-wp-content/themes/twenty*/
+# ignore these folders
+/temporary/compilation-cache/*
 
 # ignore node dependency directories
 /node_modules/
@@ -27,4 +24,5 @@ wp-content/themes/twenty*/
 # ignore log files and databases
 *.log
 *.sql
-*.sqlite
+/.env*
+/.htaccess
