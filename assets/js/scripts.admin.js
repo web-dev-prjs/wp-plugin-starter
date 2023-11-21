@@ -6,7 +6,7 @@
  |-------------------------------------
  */
 
-// Handles switching between service tabs.
+// Handles switching between tabs.
 tab_switcher();
 
 function tab_switcher() {
