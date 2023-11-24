@@ -1,0 +1,15 @@
+{#
+/**
+ * Sample service twig-template.
+ *
+ * @package wp-plugin-starter
+ */
+#}
+
+{% extends 'admin/layout.html.twig' %}
+
+{% block content %}
+
+    {{ make_settings_form(data)|raw }}
+
+{% endblock %}
