@@ -23,9 +23,10 @@ final class UpdateChecker {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function register(): void {
+	public function build(): void {
 
-		$this->update_checker();
+		// TODO: Temporary disable, check functionality.
+		// $this->update_checker();
 	}
 
 	/**

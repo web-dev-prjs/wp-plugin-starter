@@ -16,12 +16,12 @@ namespace WPS\Core;
 final class ActionLink {
 
 	/**
-	 * Register the settings links plugin.
+	 * Builds the settings links plugin.
 	 *
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function register(): void {
+	public function Build(): void {
 
 		add_filter( "plugin_action_links_" . PLUGIN_BASENAME, array( $this, 'action_links' ) );
 	}
