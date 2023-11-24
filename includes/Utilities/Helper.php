@@ -6,7 +6,7 @@
  * @package wp-plugin-starter
  */
 
-namespace WPS;
+namespace WPS\Utilities;
 
 use DateTimeZone;
 use Exception;
@@ -20,47 +20,31 @@ use WPS\Core\Notice;
 class Helper {
 
 	/**
-	 * Returns a name of class in the form of lowercase.
+	 * Returns a slug of class in the form of lowercase.
 	 *
-	 * @param string $file The magic file constant (__FILE__).
+	 * @param string $name The name of class or file.
 	 *
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function lower_class_name( string $file ): string {
+	public static function make_lower_slug( string $name ): string {
 
-		return strtolower(
-			preg_replace( '/.php/', '', basename( $file ) )
-		);
-	}
+		$slug = '';
 
-	/**
-	 * Makes a settings form based on settings name.
-	 *
-	 * @param string      $settings_name A settings name.
-	 * @param null|string $button_text   Name of button.
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 */
-	public static function make_settings_form( string $settings_name, string $button_text = null ): void {
+		$chars = str_split( $name );
 
-		echo '<form method="post" action="/wp-admin/options.php">';
+		while ( sizeof( $chars ) ) {
+			$char = array_shift( $chars );
 
-		settings_errors();
-		settings_fields( PLUGIN_PREFIX . "_{$settings_name}_" . OPTION_GROUP_SUFFIX );
-		do_settings_sections( PLUGIN_PREFIX . "_$settings_name" );
-		submit_button( $button_text );
-
-		echo '</form>';
-
-		if ( self::is_path( PLUGIN_PREFIX . '_dashboard' ) ) {
-			$output = '<pre>';
-			$output .= print_r( get_option( PLUGIN_PREFIX . "_services" ), true );
-			$output .= '</pre>';
-
-			echo $output;
+			if ( $char !== strtoupper( $char ) ) {
+				$slug .= $char;
+			} else {
+				$char_lower = strtolower( $char );
+				$slug       .= empty( $slug ) ? $char_lower : '_' . $char_lower;
+			}
 		}
+
+		return $slug;
 	}
 
 	/**
@@ -117,23 +101,23 @@ class Helper {
 	/**
 	 * Get the template content to form the template folder.
 	 *
-	 * @param string      $path The path of template at this plugin.
-	 * @param string      $name The name of template at this plugin.
-	 * @param null|string $type The type of template at this plugin. Includes "view" or "callback." Default is "null."
-	 * @param bool        $show Demonstrates the template. Default is "true."
+	 * @param string      $path     The path of template at the plugin.
+	 * @param string      $basename The basename of template at the plugin.
+	 * @param null|string $type     The type of template at this plugin. Includes "view" or "callback." Default is "null."
+	 * @param bool        $show     Demonstrates the template. Default is "true."
 	 *
 	 * @return mixed Represent a html formatted of content.
 	 * @since 1.0.0
 	 */
-	public static function get_template( string $path, string $name, ?string $type = null, bool $show = true ): mixed {
+	public static function get_template( string $path, string $basename, ?string $type = null, bool $show = true ): mixed {
 
 		if ( $show ) {
 			$directory = ! empty( $type ) ? "/{$type}s/" : '/';
 
 			try {
-				if ( ! file_exists( $file = PLUGIN_TEMPLATES . "$path$directory$name.php" ) ) {
+				if ( ! file_exists( $file = PLUGIN_TEMPLATES . "$path$directory$basename" ) ) {
 					throw new Exception(
-						"The \"$name\" does not exist, please check the \"Templates\" folder!",
+						"The \"$basename\" does not exist, please check the \"templates\" folder!",
 						404
 					);
 				} else {
@@ -193,7 +177,6 @@ class Helper {
 			exit;
 		}
 	}
-
 
 	/**
 	 * A couple of key/value pairs print to debugging.

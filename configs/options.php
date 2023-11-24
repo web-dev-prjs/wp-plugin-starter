@@ -6,8 +6,6 @@
  * @package wp-plugin-starter
  */
 
-$plugin_prefix = strtoupper( PLUGIN_PREFIX );
-
 const PLUGIN_OPTIONS = array(
 	/*
 	 |-------------------------------------------------------------------------
@@ -16,7 +14,7 @@ const PLUGIN_OPTIONS = array(
 	 | array(
 	 |     'option_group' => '',
 	 |     'option_name'  => '',
-	 |     'callback'    => array( PLUGIN_NAMESPACE . 'Core\Setting\Traits\Callbacks\Setting', '' )
+	 |     'callback'    => array( PLUGIN_NAMESPACE . 'Core\Callbacks\BaseOptionCallback', 'Callback Name' )
 	 | )
 	 |-------------------------------------------------------------------------
 	 */
@@ -31,7 +29,7 @@ const PLUGIN_OPTIONS = array(
 	 |     'id'       => ,
 	 |     'title'    => '',
 	 |     'page'     => '',
-	 |     'callback'    => array( PLUGIN_NAMESPACE . 'Core\Setting\Traits\Callbacks\Setting', '' )
+	 |     'callback'    => array( PLUGIN_NAMESPACE . 'Core\Callbacks\BaseOptionCallback', 'Callback Name' )
 	 | )
 	 |-------------------------------------------------------------------------
 	 */
@@ -49,22 +47,10 @@ const PLUGIN_OPTIONS = array(
 	 |     'option_name' => 'services',
 	 |     'section'     => 'services',
 	 |     'classes'     => '',
-	 |     'callback'    => array( PLUGIN_NAMESPACE . 'Core\Setting\Traits\Callbacks\Setting', '' )
+	 |     'callback'    => array( PLUGIN_NAMESPACE . 'Core\Callbacks\BaseOptionCallback', 'Callback Name' )
 	 | )
 	 |-------------------------------------------------------------------------
 	 */
 	'fields'   => array(// New custom-fields go here...
-		array(
-			'id'          => 'sample_service',
-			'title'       => 'Sample Service',
-			'page'        => 'dashboard',
-			'option_name' => 'services',
-			'section'     => 'services',
-			'classes'     => '',
-			'callback'    => array(
-				PLUGIN_NAMESPACE . 'Core\Setting\Traits\Callbacks\Setting',
-				'service_field__callback'
-			)
-		)
 	)
 );

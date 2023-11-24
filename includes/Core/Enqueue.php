@@ -10,7 +10,7 @@ namespace WPS\Core;
 
 use Exception;
 use WP_Error;
-use WPS\Helper;
+use WPS\Utilities\Helper;
 
 /**
  * Enqueue class.
@@ -20,12 +20,12 @@ use WPS\Helper;
 final class Enqueue {
 
 	/**
-	 * The register function
+	 * Builds actions of this class in while the plugin will activate.
 	 *
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function register(): void {
+	public function build(): void {
 
 		// Hooks all backend (admin) styles and scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue' ) );
@@ -40,57 +40,82 @@ final class Enqueue {
 	public function admin_enqueue(): void {
 
 		$enqueues = array(
-			// All stylesheets of plugin.
+			/*
+			 |-----------------------------------
+			 | All stylesheets of plugin.
+			 |-----------------------------------
+			 */
 			'style'  => array(
-				'admin-npm-bootstrap'   => array( // Bootstrap styles.
-					'enqueue' => false,
-					'url'     => PLUGIN_URL . 'node_modules/bootstrap/dist/css/bootstrap.min.css',
-					'version' => '5.3.0'
+				// Bootstrap styles.
+				'admin-npm-bootstrap'   => array(
+					'this_plugin' => false,
+					'enqueue'     => false,
+					'version'     => '5.3.0',
+					'screen'      => array(),
+					'url'         => PLUGIN_URL . 'node_modules/bootstrap/dist/css/bootstrap.min.css'
 				),
-				'admin-npm-fontawesome' => array( // Fontawesome styles.
-					'enqueue' => false,
-					'url'     => PLUGIN_URL . 'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
-					'version' => '6.3.0'
+				// Fontawesome styles.
+				'admin-npm-fontawesome' => array(
+					'this_plugin' => false,
+					'enqueue'     => false,
+					'version'     => '6.3.0',
+					'screen'      => array(),
+					'url'         => PLUGIN_URL . 'node_modules/@fortawesome/fontawesome-free/css/all.min.css'
 				),
-				'admin'                 => array( // Plugin styles.
-					'enqueue'    => true,
-					'filename'   => 'styles.admin.css',
-					'dependency' => array(
+				// Plugin styles.
+				'admin'                 => array(
+					'this_plugin' => true,
+					'enqueue'     => true,
+					'screen'      => array(),
+					'filename'    => 'styles.admin.css',
+					'dependency'  => array(
 						PLUGIN_PREFIX . '-admin-npm-bootstrap',
 						PLUGIN_PREFIX . '-admin-npm-fontawesome',
 					)
 				),
 				// Additional styles go here.
 			),
-			// All scripts of plugin.
+
+			/*
+			 |-----------------------------------
+			 | All scripts of plugin.
+			 |-----------------------------------
+			 */
 			'script' => array(
-				'admin-npm-bootstrap'        => array( // Bootstrap scripts.
-					'enqueue' => false,
-					'url'     => PLUGIN_URL . 'node_modules/bootstrap/dist/js/bootstrap.min.js',
-					'version' => '5.3.0'
+				// Bootstrap scripts.
+				'admin-npm-bootstrap'        => array(
+					'this_plugin' => false,
+					'enqueue'     => false,
+					'version'     => '5.3.0',
+					'screen'      => array(),
+					'url'         => PLUGIN_URL . 'node_modules/bootstrap/dist/js/bootstrap.min.js'
 				),
-				'admin-npm-bootstrap-bundle' => array( // Bootstrap bundle scripts.
-					'enqueue' => false,
-					'url'     => PLUGIN_URL . 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
-					'version' => '5.3.0'
+				// Bootstrap bundle scripts.
+				'admin-npm-bootstrap-bundle' => array(
+					'this_plugin' => false,
+					'enqueue'     => false,
+					'version'     => '5.3.0',
+					'screen'      => array(),
+					'url'         => PLUGIN_URL . 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
 				),
-				'admin'                      => array( // Plugin scripts.
-					'enqueue'    => true,
-					'filename'   => 'scripts.admin.js',
-					'dependency' => array(
+				// Plugin scripts.
+				'admin'                      => array(
+					'this_plugin' => true,
+					'enqueue'     => true,
+					'screen'      => array(),
+					'filename'    => 'scripts.admin.js',
+					'dependency'  => array(
 						'jquery',
 						PLUGIN_PREFIX . '-admin-npm-bootstrap',
 						PLUGIN_PREFIX . '-admin-npm-bootstrap-bundle',
 					),
-					'in_footer'  => true
+					'in_footer'   => true
 				),
 				// Additional scripts go here.
 			)
 		);
 
-		if ( Helper::this_plugin() ) {
-			self::enqueue_generator( $enqueues );
-		}
+		self::enqueue_generator( $enqueues );
 	}
 
 	/**
@@ -98,9 +123,9 @@ final class Enqueue {
 	 *
 	 * @see   wp_register_style(), wp_enqueue_style(), wp_register_script(), wp_enqueue_script()
 	 *
-	 * @param array $enqueues An array of stylesheet and scripts. includes =>
-	 *                        Type: string $handle Name of the stylesheet/script. Should be unique.
-	 *                        type: string $filename Path of the stylesheet relative to the plugin assets directory.
+	 * @param array $enqueues An array of stylesheet and scripts. Includes =>
+	 *                        Type: string $handle Name of the stylesheet/script, it Should be unique.
+	 *                        Type: string $filename Path of the stylesheet relative to the plugin assets directory.
 	 *                        Type: array $dependency An array of registered stylesheet/script handles this stylesheet/script depends on.
 	 *                        Type: string $version String specifying script version number.
 	 *                        Type: string $media The media for which this stylesheet has been defined.
@@ -126,13 +151,17 @@ final class Enqueue {
 								$param['media'] ?? 'all',
 							);
 
-							if ( $param['enqueue'] ) {
+							if ( $param['enqueue'] &&
+							     ( $param['this_plugin'] === Helper::this_plugin() ||
+							       in_array( get_current_screen()->id, $param['screen'] ) )
+							) {
 								wp_enqueue_style( $handle );
 							}
 
 							break;
 
-						case 'script':
+						case
+						'script':
 							wp_register_script(
 								$handle,
 								$param['url'] ?? PLUGIN_ASSETS . "js/{$param['filename']}",
@@ -141,7 +170,10 @@ final class Enqueue {
 								$param['in_footer'] ?? false,
 							);
 
-							if ( $param['enqueue'] ) {
+							if ( $param['enqueue'] &&
+							     ( $param['this_plugin'] === Helper::this_plugin() ||
+							       in_array( get_current_screen()->id, $param['screen'] ) )
+							) {
 								wp_enqueue_script( $handle );
 							}
 

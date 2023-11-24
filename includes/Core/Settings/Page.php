@@ -6,10 +6,10 @@
  * @package wp-plugin-starter
  */
 
-namespace WPS\Core\Setting\Traits;
+namespace WPS\Core\Settings;
 
 use stdClass;
-use WPS\Helper;
+use WPS\Core\TwigTemplate;
 
 /**
  * Page trait.
@@ -19,7 +19,7 @@ use WPS\Helper;
 trait Page {
 
 	/**
-	 * Makes a stdClass of the general plugin main-pages, and sub-pages.
+	 * Makes a stdClass of the general plugin main-pages, and subpages.
 	 *
 	 * @return object
 	 * @since 1.0.0
@@ -34,17 +34,31 @@ trait Page {
 			 | Default plugin main-pages.
 			 |----------------------------------
 			 */
-			'main_pages' => array(// New main-pages go here...
+			'main_pages'   => array(// New main-pages go here...
 				array(
 					'page_title' => 'Dashboard',
 					'menu_title' => PLUGIN_NAME,
 					'capability' => 'manage_options',
 					'menu_slug'  => 'dashboard',
 					'callback'   => function () {
-						Helper::get_template( 'admin', 'dashboard', 'view' );
+
+						/**
+						 * @var TwigTemplate $twig_template
+						 */
+						global $twig_template;
+
+						print $twig_template
+							->with_template( 'admin.pages.dashboard' )
+							->with_context( array(
+								'fa_icon' => 'fa-tachometer-alt',
+								'data'    => array(
+									'text_button'   => 'Update',
+									'settings_form' => 'dashboard'
+								)
+							) )->template_render();
 					},
 					'icon_url'   => 'dashicons-admin-generic',
-					'position'   => 110,
+					'position'   => 110
 				)
 			),
 			/*
@@ -52,7 +66,14 @@ trait Page {
 			 | Default plugin sub-pages.
 			 |----------------------------------
 			 */
-			'sub_pages'  => array(// New sub-pages go here...
+			'sub_pages'    => array(// New subpages go here...
+			),
+			/*
+			 |----------------------------------
+			 | Default plugin sub-pages.
+			 |----------------------------------
+			 */
+			'option_pages' => array(// New option-pages go here...
 			)
 		);
 

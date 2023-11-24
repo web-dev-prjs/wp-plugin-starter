@@ -59,6 +59,14 @@ abstract class AbstractService {
 	protected array $service_sub_pages = array();
 
 	/**
+	 * The service option-pages.
+	 *
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected array $service_option_pages = array();
+
+	/**
 	 * The service sections.
 	 *
 	 * @var array
@@ -90,6 +98,7 @@ abstract class AbstractService {
 
 		$this->make_main_pages()
 		     ->make_sub_pages()
+		     ->make_option_pages()
 		     ->make_option_group()
 		     ->make_sections()
 		     ->make_fields()
@@ -135,9 +144,9 @@ abstract class AbstractService {
 
 						print $twig_template
 							->with_template( $service_main_page['template_name'] )
-							->with_context( array_merge(
+							->with_context( array_merge_recursive(
 								$service_main_page['template_context'],
-								array( 'data' => array( 'settings_name' => $menu_slug ) )
+								array( 'data' => array( 'settings_form' => $menu_slug ) )
 							) )->template_render();
 					}
 				);
@@ -187,9 +196,9 @@ abstract class AbstractService {
 
 						print $twig_template
 							->with_template( $service_sub_page['template_name'] )
-							->with_context( array_merge(
+							->with_context( array_merge_recursive(
 								$service_sub_page['template_context'],
-								array( 'data' => array( 'settings_name' => $sub_page_slug ) )
+								array( 'data' => array( 'settings_form' => $sub_page_slug ) )
 							) )->template_render();
 					}
 				);
@@ -205,6 +214,57 @@ abstract class AbstractService {
 				}
 
 				return $sub_pages;
+			}
+		);
+
+		return $this;
+	}
+
+	/**
+	 * Builds the service option-pages.
+	 *
+	 * @return AbstractService
+	 * @since 1.0.0
+	 */
+	private function make_option_pages(): AbstractService {
+
+		$service_option_pages = array();
+
+		if ( sizeof( $this->service_option_pages ) ) {
+			foreach ( $this->service_option_pages as $option_page_slug => $service_option_page ) {
+				$service_option_pages[] = array(
+					'page_title' => $service_option_page['page_title'],
+					'menu_title' => $service_option_page['menu_title'],
+					'capability' => $service_option_page['capability'],
+					'menu_slug'  => $option_page_slug,
+					'position'   => $service_option_page['position'],
+					'callback'   => function () use ( $option_page_slug, $service_option_page ) {
+
+						/**
+						 * @var TwigTemplate $twig_template
+						 */
+						global $twig_template;
+
+						print $twig_template
+							->with_template( $service_option_page['template_name'] )
+							->with_context( array_merge_recursive(
+								$service_option_page['template_context'],
+								array( 'data' => array( 'settings_form' => $option_page_slug ) )
+							) )->template_render();
+					}
+				);
+			}
+		}
+
+		add_filter(
+			PLUGIN_PREFIX . '_add_option_pages_endpoint',
+			function ( array $option_pages ) use ( $service_option_pages ) {
+
+				foreach ( $service_option_pages as $service_option_page ) {
+					$option_pages[] = $service_option_page;
+				}
+
+				return $option_pages;
 			}
 		);
 
@@ -250,7 +310,8 @@ abstract class AbstractService {
 			foreach ( $this->service_sections as $id => $section ) {
 				$service_sections[] = array(
 					'id'       => $id, // sample_section
-					'title'    => "<span class=\"{$section['class']}\">{$section['title']}</span>", // Sample Section
+					'title'    => '<span' . ( empty( $section['class'] ) ? null : " class={$section['class']}" ) . '>' .
+					              ( empty( $section['title'] ) ? null : $section['title'] ) . '</span>', // Sample Section
 					'page'     => $this->service_slug,
 					'callback' => array( $this, "{$id}_section__callback" )
 				);

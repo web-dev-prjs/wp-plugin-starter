@@ -9,11 +9,12 @@
 // Security Note: Blocks direct access to the PHP files.
 defined( 'ABSPATH' ) || exit;
 
-require_once PLUGIN_PATH . 'configs/config.php'; // Load the plugin data configuration.
+require_once PLUGIN_PATH . 'configs/constants.php'; // Load the plugin data configuration.
 require_once PLUGIN_PATH . 'configs/pages.php'; // Includes all the plugin pages and sub-pages.
 require_once PLUGIN_PATH . 'configs/options.php'; // Includes all the plugin settings, sections, and fields.
 
-if ( ! file_exists( PLUGIN_PATH . 'vendor/autoload.php' ) ) { // Check if it does not exist the autoload file.
+// Check if it does not exist the autoload file.
+if ( ! file_exists( PLUGIN_PATH . 'vendor/autoload.php' ) ) {
 	require_once PLUGIN_PATH . 'includes/Core/Notice.php';
 
 	add_action(
@@ -53,6 +54,6 @@ if ( ! file_exists( PLUGIN_PATH . 'vendor/autoload.php' ) ) { // Check if it doe
 		);
 	} else {
 		// Builds the plugin modules.
-		( new ( PLUGIN_NAMESPACE . 'App' ) )->build( require_once PLUGIN_PATH . 'configs/modules.php' );
+		( new ( PLUGIN_NAMESPACE . 'App' ) )->run();
 	}
 }

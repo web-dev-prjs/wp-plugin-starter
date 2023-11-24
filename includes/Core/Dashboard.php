@@ -8,9 +8,9 @@
 
 namespace WPS\Core;
 
-use WPS\Core\Setting\Classes\Setting;
-use WPS\Core\Setting\Traits\Option;
-use WPS\Core\Setting\Traits\Page;
+use WPS\Core\Settings\Option;
+use WPS\Core\Settings\Page;
+use WPS\Core\Settings\Setting;
 
 /**
  * Dashboard class.
@@ -22,53 +22,65 @@ final class Dashboard extends Setting {
 	use Page;
 	use Option;
 
+	/**
+	 * An array of whole of the plugin pages.
+	 *
+	 * @var object
+	 * @since 1.0.0
+	 */
 	private object $pages;
 
+	/**
+	 * An array of whole of the plugin options.
+	 *
+	 * @var object
+	 * @since 1.0.0
+	 */
 	private object $options;
 
 	/**
-	 * Register all the pages, sub-pages, settings, sections, and fields of the plugin.
+	 * Builds all the pages, subpages, settings, sections, and fields of the plugin.
 	 *
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function register(): void {
+	public function build(): void {
 
-		add_action( 'init', array( $this, 'actions' ) );
-	}
+		/**
+		 * Actions any functionality of the plugin dashboard.
+		 *
+		 * @return void
+		 * @since 1.0.0
+		 */
+		add_action( 'init', function () {
 
-	/**
-	 * Actions any functionality of the plugin dashboard.
-	 *
-	 * @return void
-	 * @since 1.0.0
-	 */
-	public function actions(): void {
+			if ( ! current_user_can( 'manage_options' ) ) {
+				return;
+			}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
+			// Gets all the pages to make them in the plugin admin-side.
+			$this->pages = $this->add_pages();
 
-		// Gets all the pages to make them in the plugin admin-side.
-		$this->pages = $this->add_pages();
+			$this->add_main_pages()
+			     ->add_sub_pages()
+			     ->add_option_pages()
+			     ->create_pages();
 
-		$this->add_main_pages()
-		     ->add_sub_pages()
-		     ->create_pages();
+			// Gets all the options to make them in the plugin admin-side.
+			$this->options = $this->add_options();
 
-		// Gets all the options to make them in the plugin admin-side.
-		$this->options = $this->add_options();
-
-		$this->add_settings()
-		     ->add_sections()
-		     ->add_fields()
-		     ->create_options();
+			$this->add_settings()
+			     ->add_sections()
+			     ->add_fields()
+			     ->create_options();
+		} );
 	}
 
 	/**
 	 * Returns an array includes the dashboard “page” along to other “pages.”
 	 *
 	 * @return Dashboard
+	 * @since 1.0.0
 	 */
 	private function add_main_pages(): Dashboard {
 
@@ -80,16 +92,17 @@ final class Dashboard extends Setting {
 		$this->set_pages(
 			apply_filters( PLUGIN_PREFIX . '_main_pages_endpoint', $main_pages )
 		)->with_sub_page(
-			apply_filters( PLUGIN_PREFIX . '_with_sub_page_endpoint', 'Dashboard' )
+			apply_filters( PLUGIN_PREFIX . '_with_sub_page_endpoint', WITH_SUBPAGE )
 		);
 
 		return $this;
 	}
 
 	/**
-	 * Returns an array includes the dashboard “page” along to other “pages.”
+	 * Returns an array includes the “sub-page” along to plugin dashboard “pages.”
 	 *
 	 * @return Dashboard
+	 * @since 1.0.0
 	 */
 	private function add_sub_pages(): Dashboard {
 
@@ -106,9 +119,30 @@ final class Dashboard extends Setting {
 	}
 
 	/**
+	 * Returns an array includes the “option-page” along to dashboard settings section.
+	 *
+	 * @return Dashboard
+	 * @since 1.0.0
+	 */
+	private function add_option_pages(): Dashboard {
+
+		$option_pages = array_merge(
+			$this->pages->option_pages,
+			apply_filters( PLUGIN_PREFIX . '_add_option_pages_endpoint', array() )
+		);
+
+		$this->set_option_pages(
+			apply_filters( PLUGIN_PREFIX . '_option_pages_endpoint', $option_pages )
+		);
+
+		return $this;
+	}
+
+	/**
 	 * Returns an array includes the dashboard “option group” along to other “options group.”
 	 *
 	 * @return Dashboard
+	 * @since 1.0.0
 	 */
 	private function add_settings(): Dashboard {
 
@@ -128,6 +162,7 @@ final class Dashboard extends Setting {
 	 * Returns an array includes the dashboard “option group” along to other “options group.”
 	 *
 	 * @return Dashboard
+	 * @since 1.0.0
 	 */
 	private function add_sections(): Dashboard {
 
@@ -148,6 +183,7 @@ final class Dashboard extends Setting {
 	 * Returns an array includes the dashboard “option group” along to other “options group.”
 	 *
 	 * @return Dashboard
+	 * @since 1.0.0
 	 */
 	private function add_fields(): Dashboard {
 

@@ -6,10 +6,10 @@
  * @package wp-plugin-starter
  */
 
-namespace WPS\Core\Setting\Traits;
+namespace WPS\Core\Settings;
 
 use stdClass;
-use WPS\Core\Setting\Traits\Callbacks\Setting;
+use WPS\Core\Callbacks\OptionCallback;
 
 /**
  * Option trait.
@@ -18,7 +18,7 @@ use WPS\Core\Setting\Traits\Callbacks\Setting;
  */
 trait Option {
 
-	use Setting;
+	use OptionCallback;
 
 	/**
 	 * Makes a stdClass of the general plugin settings, sections, and custom-fields.
@@ -51,7 +51,7 @@ trait Option {
 			'sections' => array(// New default sections go here...
 				array(
 					'id'       => 'services',
-					'title'    => 'Services Section',
+					'title'    => '<span class="text-dark py-1">Services Section</span>',
 					'page'     => 'dashboard',
 					'callback' => array( $this, 'services_section__callback' )
 				)
