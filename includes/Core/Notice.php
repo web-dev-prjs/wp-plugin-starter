@@ -85,7 +85,7 @@ final class Notice {
 		$manual .= '</li>';
 		$manual .= '<b>"autoload": {<br />';
 		$manual .= '&nbsp;&nbsp;"psr-4": {<br />';
-		$manual .= '&nbsp;&nbsp;&nbsp;&nbsp;"' . strtoupper( PLUGIN_PREFIX ) . '\Includes\\": "./includes"<br />';
+		$manual .= '&nbsp;&nbsp;&nbsp;&nbsp;"' . strtoupper( PLUGIN_PREFIX ) . '\\": "./includes"<br />';
 		$manual .= '&nbsp;&nbsp;}<br />';
 		$manual .= '}</b>';
 		$manual .= '<li>';
