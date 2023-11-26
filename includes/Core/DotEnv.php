@@ -19,6 +19,7 @@ final class DotEnv {
 	 * Defines the plugin directory.
 	 *
 	 * @var string
+	 * @since 1.0.0
 	 */
 	private string $path;
 
@@ -26,6 +27,7 @@ final class DotEnv {
 	 * Defines the ".env" file.
 	 *
 	 * @var string
+	 * @since 1.0.0
 	 */
 	private string $base = PLUGIN_ENV_FILE;
 
@@ -75,7 +77,7 @@ final class DotEnv {
 		foreach ( $lines as $line ) {
 			preg_match( '/#/', trim( $line ), $matches );
 
-			if ( $matches && $matches[0] ) {
+			if ( $matches && $matches[ 0 ] ) {
 				continue;
 			}
 
