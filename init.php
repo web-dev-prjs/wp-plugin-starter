@@ -42,7 +42,7 @@ if ( ! file_exists( PLUGIN_PATH . 'vendor/autoload.php' ) ) {
 	load_plugin_textdomain(
 		PLUGIN_NAME,
 		false,
-		dirname( PLUGIN_BASENAME ) . '/languages'
+		dirname( PLUGIN_BASENAME ) . '/language'
 	);
 
 	if ( ! class_exists( PLUGIN_NAMESPACE . 'App' ) ) {
