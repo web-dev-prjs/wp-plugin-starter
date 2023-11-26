@@ -351,8 +351,10 @@ abstract class AbstractService {
 					'page'        => $this->service_slug, // sample_service
 					'option_name' => $this->service_slug, // sample_service
 					'section'     => $field['section_id'], // sample_section
-					'classes'     => $field['class'],
-					'placeholder' => $field['place_holder'], // Enter your option name!
+					'class'       => $field['class'] ?? null,
+					'style'       => $field['style'] ?? null,
+					'attribute'   => $field['attribute'] ?? null,
+					'placeholder' => $field['place_holder'] ?? null, // Enter your option name!
 					'callback'    => array( $this, "{$id}_field__callback" )
 				);
 			}
@@ -415,7 +417,10 @@ abstract class AbstractService {
 						'page'        => 'dashboard',
 						'option_name' => 'services',
 						'section'     => 'services',
-						'classes'     => '',
+						'type'        => 'checkbox',
+						'class'       => '',
+						'style'       => '',
+						'attribute'   => '',
 						'callback'    => array(
 							PLUGIN_NAMESPACE . 'Core\Callbacks\OptionCallback',
 							'service_field__callback'
