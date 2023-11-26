@@ -16,52 +16,42 @@ namespace WPS\Utilities;
 final class Component {
 
 	/**
-	 * Creates an input-text html template.
+	 * Creates an input-tag html template.
 	 *
 	 * @param array $args An array includes field data.
 	 *
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function input_text_template( array $args ): string {
+	public static function input_tag_template( array $args ): string {
 
-		$field_name  = $args['label_for'];
+		$input_type  = $args['type'];
+		$class       = $args['class'] ?? null;
+		$style       = $args['style'] ?? null;
+		$field_name  = $args['field_name'];
+		$attribute   = $args['attribute'] ?? null;
+		$placeholder = $args['placeholder'] ?? null;
+
 		$option_name = $args['option_name'];
-		$placeholder = $args['placeholder'];
 		$options     = get_option( $option_name );
+
+		$checked     = $options && isset( $options[ $field_name ] );
 		$field_value = $options && isset( $options[ $field_name ] ) ? $options[ $field_name ] : null;
 
-		$markup = '<div class="">'; // form-check form-switch
-		$markup .= '<input type="input" id="' . $field_name . '" name="' . $option_name . '[' . $field_name . ']"';
-		$markup .= ' class="' . $args['class'] . '" value="' . $field_value . '" placeholder="' . $placeholder . '"';
-		$markup .= ' /><label for="' . $field_name . '"></label>';
-		$markup .= '</div>';
+		$html = '<div class="">';
+		$html .= '<input type="' . $input_type . '" name="' . $option_name . '[' . $field_name . ']"';
+		$html .= ' id="' . PLUGIN_PREFIX . '_' . $field_name . '"';
+		$html .= ' class="' . $class . '" style="' . $style . '"' . $attribute;
 
-		return $markup;
-	}
+		if ( 'checkbox' !== $input_type ) {
+			$html .= ' value="' . $field_value . '" placeholder="' . $placeholder . '" />';
+		} else {
+			$html .= ' role="switch" value="1" ' . checked( $checked, true, false ) . ' />';
+		}
 
-	/**
-	 * Creates an input-checkbox html template.
-	 *
-	 * @param array $args An array includes field data.
-	 *
-	 * @return string
-	 * @since 1.0.0
-	 */
-	public static function input_checkbox_template( array $args ): string {
+		$html .= '<label for="' . PLUGIN_PREFIX . '_' . $field_name . '"></label>';
+		$html .= '</div>';
 
-		$label_for   = $args['label_for'];
-		$option_name = $args['option_name'];
-		$options     = get_option( $option_name );
-		$checked     = $options && isset( $options[ $label_for ] );
-
-		$markup = '<div class="">'; // form-check form-switch
-		$markup .= '<input type="checkbox" id="' . $label_for . '" name="' . $option_name . '[' . $label_for . ']"';
-		$markup .= ' class="' . $args['class'] . '" role="switch" value="1" '; // form-check-input
-		$markup .= checked( $checked, true, false );
-		$markup .= ' /><label for="' . $label_for . '"></label>';
-		$markup .= '</div>';
-
-		return $markup;
+		return $html;
 	}
 }
