@@ -1,8 +1,8 @@
 {
-  "name": "omid/wp-plugin-starter",
-  "description": "This is an educational plugin and an example to produce any other plugin.",
+  "name": "web-dev-prjs/wp-plugin-starter",
+  "description": "WPS (abbreviation of “WordPress-plugin-starter”) is a WordPress plugin boilerplate with the developmental purpose of any other WordPress plugin in less time. The whole plugin is implemented in the FACADE design pattern for stability and compatibility with any newly created feature, So the plugin performs highly customizable and flexible.",
   "type": "project",
-  "license": "GPL",
+  "license": "MIT",
   "authors": [
     {
       "name": "omidhosseini",
