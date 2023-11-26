@@ -57,10 +57,16 @@ final class TwigFunction {
 		$show_options = $data['show_options'] ?? true;
 
 		if ( $show_options && $options ) {
+			$count = 0;
+
 			foreach ( $options as $key => $value ) {
-				echo '|&nbsp;&nbsp;<code>' . $key . ': ',
-				print_r( $value, true ),
-				'</code>&nbsp;&nbsp;|<br />';
+				echo ! $count ? '|' : null,
+				'&nbsp;&nbsp;<code>',
+					'<span class="fw-semibold" style="font-size: small">' . $key . ': </span>' .
+					'<span class="fw-bolder text-primary" style="font-size: small">' . $value . '</span>',
+				'</code>&nbsp;&nbsp;|';
+
+				$count ++;
 			}
 		}
 
