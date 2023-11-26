@@ -1,33 +1,44 @@
 <?php
 
 /**
- * Customizes redirects.
+ * Provides functionality for secure-login system.
  *
  * @package wp-plugin-starter
  */
 
-namespace WPS\Controller\Services;
+namespace WPS\Services\Providers;
 
-use WPS\Helper;
+use WPS\Utilities\Helper;
 
 /**
- * Login class.
+ * SecureLogin class.
  *
  * @since 1.0.0
  */
-class Login {
+class SecureLogin {
 
 	/**
-	 * Secures the admin login page by customizing it.
+	 * The hide login keyword.
 	 *
-	 * @return void
+	 * @var null|string
 	 * @since 1.0.0
 	 */
-	public function register(): void {
+	private ?string $hide_login_key;
 
-		add_action( 'init', array( $this, 'admin_login_page' ) );
-		add_action( 'login_head', array( $this, 'redirect_to_home_page' ) );
-		add_action( 'wp_logout', array( $this, 'redirect_in_logout_time' ) );
+	/**
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+
+		$secure_login_options_name = PLUGIN_PREFIX . '_' . Helper::make_lower_slug(
+				str_replace( 'WPS\\Services\\Providers\\', '', __CLASS__ )
+			);
+
+		$secure_login_options = get_option( $secure_login_options_name );
+		$secure_login_keyword = $secure_login_options ? $secure_login_options['login_keyword'] : null;
+
+		// Define plugin feature for hide default login path.
+		$this->hide_login_key = $secure_login_keyword ?? delete_option( $secure_login_options_name );
 	}
 
 	/**
@@ -36,11 +47,15 @@ class Login {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	function redirect_to_home_page(): void {
+	public function redirect_to_home_page(): void {
+
+		if ( empty( $this->hide_login_key ) ) {
+			return;
+		}
 
 		if ( ! str_contains(
 			parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ),
-			PLUGIN_HIDE_LOGIN,
+			$this->hide_login_key,
 		) ) {
 			Helper::redirect( 'wsr', home_url() );
 		}
@@ -52,7 +67,7 @@ class Login {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	function admin_login_page(): void {
+	public function admin_login_page(): void {
 
 		$requestURI = preg_replace(
 			'/(\/)/',
@@ -60,10 +75,10 @@ class Login {
 			parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ),
 		);
 
-		if ( PLUGIN_HIDE_LOGIN === $requestURI && ( false !== $_GET['redirect'] ) ) {
+		if ( $this->hide_login_key === $requestURI && ( false !== $_GET['redirect'] ) ) {
 			Helper::redirect(
 				'wsr',
-				home_url( 'wp-login.php?' . PLUGIN_HIDE_LOGIN . '&redirect=false' ),
+				home_url( 'wp-login.php?' . $this->hide_login_key . '&redirect=false' ),
 			);
 		}
 	}
@@ -84,7 +99,7 @@ class Login {
 			Helper::redirect( 'wsr', wp_logout_url( home_url( '?page_id=2' ) ) );
 		} elseif ( ! str_contains(
 			parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ),
-			PLUGIN_HIDE_LOGIN,
+			$this->hide_login_key,
 		) ) {
 			Helper::redirect( 'wsr', home_url( '?page_id=2' ) );
 		}
