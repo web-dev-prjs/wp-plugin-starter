@@ -9,7 +9,7 @@
 namespace WPS\Core;
 
 /**
- * ActionLinks class.
+ * ActionLink class.
  *
  * @since 1.0.0
  */
