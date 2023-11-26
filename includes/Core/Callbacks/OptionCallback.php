@@ -58,6 +58,6 @@ trait OptionCallback {
 	 */
 	public static function service_field__callback( array $args ): void {
 
-		echo Component::input_checkbox_template( $args );
+		print Component::input_tag_template( $args );
 	}
 }
