@@ -75,13 +75,18 @@ final class DotEnv {
 		$lines = file( $this->path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES );
 
 		foreach ( $lines as $line ) {
-			preg_match( '/#/', trim( $line ), $matches );
-
-			if ( $matches && $matches[ 0 ] ) {
+			if ( str_starts_with( trim( $line ), '#' ) ) {
 				continue;
 			}
 
-			[ $name, $value ] = explode( '=', $line, 2 );
+			[ $name, $value ] = explode( '=', trim( $line ), 2 );
+
+			preg_match( '/^\"\S*\"$/', $value, $matches );
+
+			if ( $matches && $matches[0] ) {
+				$value = str_replace( '"', '', $value );
+			}
+
 			$name  = trim( $name );
 			$value = trim( $value );
 
