@@ -23,6 +23,11 @@ final class Deactivate {
 	 */
 	public static function deactivate(): void {
 
+		/*
+		 |-----------------------------------------------------------
+		 | Removes rewrite rules and then recreate rewrite rules.
+		 |-----------------------------------------------------------
+		 */
 		flush_rewrite_rules();
 	}
 }
