@@ -24,5 +24,6 @@ wp-content/*
 # ignore log files and databases
 *.log
 *.sql
-/.env*
+/.env
 /.htaccess
+/.githubtoken
