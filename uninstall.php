@@ -14,7 +14,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || die;
  *
  * @since 1.0.0
  */
-final class Uninstall {
+final class uninstall {
 
 	/**
 	 * Runs in the uninstallation time.
@@ -22,9 +22,31 @@ final class Uninstall {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public static function uninstall(): void {
+	public static function run(): void {
 
-		// Deletes all the plugin options, when uninstall the plugin.
-		delete_option( PLUGIN_ALL_OPTIONS );
+		/*
+		 |-----------------------------------------------------------
+		 | Removes rewrite rules and then recreate rewrite rules.
+		 |-----------------------------------------------------------
+		 */
+		flush_rewrite_rules();
+
+		/*
+		 |-----------------------------------------------------------
+		 | Is deleted the "PLUGIN_ALL_OPTIONS" option-group
+		 | at the deleting time the plugin.
+		 |-----------------------------------------------------------
+		 */
+		delete_option( PLUGIN_ALL_OPTIONS );;
+
+		/*
+		 |-----------------------------------------------------------
+		 | Clear any cached data that has been removed.
+		 |-----------------------------------------------------------
+		 */
+		wp_cache_flush();
 	}
 }
+
+// Is triggered at the deleting time the plugin.
+uninstall::run();
