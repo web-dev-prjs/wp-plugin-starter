@@ -1,0 +1,3 @@
+[submodule "wp-content/plugins/wp-plugin-starter/update-checker"]
+	path = wp-content/plugins/wp-plugin-starter/update-checker
+	url = https://github.com/YahnisElsts/plugin-update-checker
