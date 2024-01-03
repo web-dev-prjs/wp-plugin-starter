@@ -22,7 +22,7 @@ const TWIG_TEMPLATE_SUFFIX  = 'html.twig'; // Define Twig-template suffix.
 const OPTION_SECTION_SUFFIX = 'section'; // The option section suffix.
 const OPTION_GROUP_SUFFIX   = 'option_group'; // The option group suffix.
 const WITH_SUBPAGE          = 'General'; // Define the plugin dashboard sub-page title.
-const PLUGIN_ALL_OPTIONS    = PLUGIN_PREFIX . '_plugin_all_options'; // Define plugin prefix.
+const PLUGIN_ALL_OPTIONS    = PLUGIN_PREFIX . '_options'; // Define plugin options.
 
 define( 'PLUGIN_NAMESPACE', strtoupper( PLUGIN_PREFIX ) . '\\' ); // Define plugin namespace.
 
