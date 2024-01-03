@@ -1,23 +1,38 @@
 {
   "name": "web-dev-prjs/wp-plugin-starter",
   "description": "WPS (abbreviation of “WordPress-plugin-starter”) is a WordPress plugin boilerplate with the developmental purpose of any other WordPress plugin in less time. The whole plugin is implemented in the FACADE design pattern for stability and compatibility with any newly created feature, So the plugin performs highly customizable and flexible.",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "boilerplate",
+    "starter",
+    "development"
+  ],
+  "homepage": "https://github.com/web-dev-prjs/wp-plugin-starter",
   "type": "project",
   "license": "MIT",
   "authors": [
     {
       "name": "omidhosseini",
-      "email": "web-dev-prjs@gmail.com"
+      "email": "web-dev-prjs@gmail.com",
+      "homepage": "https://wev-dev-prjs.com",
+      "role": "Developer"
     }
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": "^8.0",
-    "php-di/php-di": "dev-master",
-    "twig/twig": "^3.0"
+    "php": ">=7.4",
+    "ext-curl": "*",
+    "ext-ftp": "*",
+    "ext-json": "*",
+    "twig/twig": "^3.0",
+    "php-di/php-di": "dev-master"
   },
+  "suggest": {},
   "autoload": {
     "psr-4": {
       "WPS\\": "./includes"
-    }
+    },
+    "files": []
   }
 }
