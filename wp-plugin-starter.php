@@ -18,7 +18,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Update URI: https://github.com/web-dev-prjs/wp-plugin-starter
  * Text Domain: wp-plugin-starter
- * Domain Path: /language
+ * Domain Path: /i18n/languages/
  */
 
 // Security Note: Blocks direct access to the PHP files.
