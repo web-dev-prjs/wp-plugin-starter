@@ -15,15 +15,15 @@ use WPS\Utilities\Helper;
  *
  * @since 1.0.0
  */
-final class ServiceSlug {
+final class ServiceKey {
 
 	/**
-	 * A list of service slugs based-on /Services/Controllers folder.
+	 * A list of service keys based-on /Services/Controllers folder.
 	 *
 	 * @var array
 	 * @since 1.0.0
 	 */
-	public array $slugs;
+	public array $keys;
 
 	/**
 	 * Returns a service-slugs list on call this class.
@@ -32,27 +32,27 @@ final class ServiceSlug {
 	 */
 	public function __construct() {
 
-		$this->get_service_slugs();
+		$this->get_service_keys();
 	}
 
 	/**
 	 * Gets service-slugs based-on /Services/Controllers folder,
-	 * and save into slugs variable after create every slug from filename
+	 * and save into slugs variable after create every key from filename
 	 *
 	 * @return void
 	 * @since 1.0.0
 	 */
-	private function get_service_slugs(): void {
+	private function get_service_keys(): void {
 
 		if ( is_null( $filenames = $this->fetch_service_filenames() ) ) {
 			return;
 		}
 
 		foreach ( $filenames as $filename ) {
-			$slug    = Helper::make_lower_slug( $filename );
+			$key     = Helper::make_service_key( $filename );
 			$service = new ( "\WPS\Services\Controllers\\$filename" );
 
-			$this->slugs[ $slug ] = $service::class;
+			$this->keys[ $key ] = $service::class;
 		}
 	}
 
