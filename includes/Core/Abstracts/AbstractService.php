@@ -19,12 +19,12 @@ use WPS\Utilities\Helper;
 abstract class AbstractService {
 
 	/**
-	 * The service slug.
+	 * The service key.
 	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
-	private string $service_slug;
+	private string $service_key;
 
 	/**
 	 * When is True the service will register and active.
@@ -90,12 +90,12 @@ abstract class AbstractService {
 	 */
 	public function build(): void {
 
-		$this->handle_dashboard_control();
+		$service_slug = $this->service_key();
 
-		if ( ! $this->service_boot || ! $this->service_slug() ) {
-			return;
-		}
+		! $this->service_boot or $this->handle_dashboard_control();
 
+		( ! $this->service_boot || ! $service_slug )
+		or
 		$this->make_main_pages()
 		     ->make_sub_pages()
 		     ->make_option_pages()
@@ -129,12 +129,12 @@ abstract class AbstractService {
 		if ( sizeof( $this->service_main_pages ) ) {
 			foreach ( $this->service_main_pages as $menu_slug => $service_main_page ) {
 				$service_main_pages[] = array(
-					'page_title' => $service_main_page['page_title'],
-					'menu_title' => $service_main_page['menu_title'],
-					'capability' => $service_main_page['capability'],
+					'page_title' => $service_main_page[ 'page_title' ],
+					'menu_title' => $service_main_page[ 'menu_title' ],
+					'capability' => $service_main_page[ 'capability' ],
 					'menu_slug'  => $menu_slug,
-					'icon_url'   => $service_main_page['icon_url'],
-					'position'   => $service_main_page['position'],
+					'icon_url'   => $service_main_page[ 'icon_url' ],
+					'position'   => $service_main_page[ 'position' ],
 					'callback'   => function () use ( $menu_slug, $service_main_page ) {
 
 						/**
@@ -143,9 +143,9 @@ abstract class AbstractService {
 						global $twig_template;
 
 						print $twig_template
-							->with_template( $service_main_page['template_name'] )
+							->with_template( $service_main_page[ 'template_name' ] )
 							->with_context( array_merge_recursive(
-								$service_main_page['template_context'],
+								$service_main_page[ 'template_context' ],
 								array( 'data' => array( 'settings_form' => $menu_slug ) )
 							) )->template_render();
 					}
@@ -181,12 +181,12 @@ abstract class AbstractService {
 		if ( sizeof( $this->service_sub_pages ) ) {
 			foreach ( $this->service_sub_pages as $sub_page_slug => $service_sub_page ) {
 				$service_sub_pages[] = array(
-					'parent_slug'    => $service_sub_page['parent_slug'],
-					'sub_page_title' => $service_sub_page['sub_page_title'],
-					'menu_title'     => $service_sub_page['menu_title'],
+					'parent_slug'    => $service_sub_page[ 'parent_slug' ],
+					'sub_page_title' => $service_sub_page[ 'sub_page_title' ],
+					'menu_title'     => $service_sub_page[ 'menu_title' ],
 					'sub_page_slug'  => $sub_page_slug,
-					'capability'     => $service_sub_page['capability'],
-					'position'       => $service_sub_page['position'],
+					'capability'     => $service_sub_page[ 'capability' ],
+					'position'       => $service_sub_page[ 'position' ],
 					'callback'       => function () use ( $sub_page_slug, $service_sub_page ) {
 
 						/**
@@ -195,9 +195,9 @@ abstract class AbstractService {
 						global $twig_template;
 
 						print $twig_template
-							->with_template( $service_sub_page['template_name'] )
+							->with_template( $service_sub_page[ 'template_name' ] )
 							->with_context( array_merge_recursive(
-								$service_sub_page['template_context'],
+								$service_sub_page[ 'template_context' ],
 								array( 'data' => array( 'settings_form' => $sub_page_slug ) )
 							) )->template_render();
 					}
@@ -233,11 +233,11 @@ abstract class AbstractService {
 		if ( sizeof( $this->service_option_pages ) ) {
 			foreach ( $this->service_option_pages as $option_page_slug => $service_option_page ) {
 				$service_option_pages[] = array(
-					'page_title' => $service_option_page['page_title'],
-					'menu_title' => $service_option_page['menu_title'],
-					'capability' => $service_option_page['capability'],
+					'page_title' => $service_option_page[ 'page_title' ],
+					'menu_title' => $service_option_page[ 'menu_title' ],
+					'capability' => $service_option_page[ 'capability' ],
 					'menu_slug'  => $option_page_slug,
-					'position'   => $service_option_page['position'],
+					'position'   => $service_option_page[ 'position' ],
 					'callback'   => function () use ( $option_page_slug, $service_option_page ) {
 
 						/**
@@ -246,9 +246,9 @@ abstract class AbstractService {
 						global $twig_template;
 
 						print $twig_template
-							->with_template( $service_option_page['template_name'] )
+							->with_template( $service_option_page[ 'template_name' ] )
 							->with_context( array_merge_recursive(
-								$service_option_page['template_context'],
+								$service_option_page[ 'template_context' ],
 								array( 'data' => array( 'settings_form' => $option_page_slug ) )
 							) )->template_render();
 					}
@@ -284,8 +284,8 @@ abstract class AbstractService {
 			function ( array $settings ) {
 
 				$settings[] = array(
-					'option_group' => $this->service_slug, // sample_service
-					'option_name'  => $this->service_slug, // The name is an array.
+					'option_group' => $this->service_key, // sample_service
+					'option_name'  => $this->service_key, // The name is an array.
 					'callback'     => array( $this, 'option_group_sanitize__callback' )
 				);
 
@@ -310,9 +310,9 @@ abstract class AbstractService {
 			foreach ( $this->service_sections as $id => $section ) {
 				$service_sections[] = array(
 					'id'       => $id, // sample_section
-					'title'    => '<span' . ( empty( $section['class'] ) ? null : " class={$section['class']}" ) . '>' .
-					              ( empty( $section['title'] ) ? null : $section['title'] ) . '</span>', // Sample Section
-					'page'     => $this->service_slug,
+					'title'    => '<span' . ( empty( $section[ 'class' ] ) ? null : " class={$section['class']}" ) . '>' .
+					              ( empty( $section[ 'title' ] ) ? null : $section[ 'title' ] ) . '</span>', // Sample Section
+					'page'     => $this->service_key,
 					'callback' => array( $this, "{$id}_section__callback" )
 				);
 			}
@@ -346,15 +346,15 @@ abstract class AbstractService {
 		if ( sizeof( $this->service_fields ) ) {
 			foreach ( $this->service_fields as $id => $field ) {
 				$service_fields[] = array(
-					'id'          => $id, // sample_option
-					'title'       => $field['title'], // Sample Option:
-					'page'        => $this->service_slug, // sample_service
-					'option_name' => $this->service_slug, // sample_service
-					'section'     => $field['section_id'], // sample_section
-					'class'       => $field['class'] ?? null,
-					'style'       => $field['style'] ?? null,
-					'attribute'   => $field['attribute'] ?? null,
-					'placeholder' => $field['place_holder'] ?? null, // Enter your option name!
+					'id'          => $id,                    // sample_option
+					'title'       => $field[ 'title' ],      // Sample Option:
+					'page'        => $this->service_key,     // sample_service
+					'option_name' => $this->service_key,     // sample_service
+					'section'     => $field[ 'section_id' ], // sample_section
+					'class'       => $field[ 'class' ] ?? null,
+					'style'       => $field[ 'style' ] ?? null,
+					'attribute'   => $field[ 'attribute' ] ?? null,
+					'placeholder' => $field[ 'place_holder' ] ?? null, // Enter your option name!
 					'callback'    => array( $this, "{$id}_field__callback" )
 				);
 			}
@@ -376,25 +376,6 @@ abstract class AbstractService {
 	}
 
 	/**
-	 * Builds the service slug from service name (same class name).
-	 *
-	 * @return bool
-	 * @since 1.0.0
-	 */
-	private function service_slug(): bool {
-
-		$this->service_slug = Helper::make_lower_slug(
-			str_replace(
-				'WPS\\Services\\Controllers\\',
-				'',
-				get_class( $this )
-			)
-		);
-
-		return isset( get_option( PLUGIN_PREFIX . '_services' )[ $this->service_slug ] );
-	}
-
-	/**
 	 * Handles to showing the service control in the plugin dashboard-page.
 	 *
 	 * @return void
@@ -408,11 +389,11 @@ abstract class AbstractService {
 				function ( array $fields ) {
 
 					$fields[] = array(
-						'id'          => $this->service_slug, // sample_service
+						'id'          => $this->service_key, // sample_service
 						'title'       => ucwords( str_replace(
 								'_',
 								' ',
-								$this->service_slug
+								$this->service_key
 							) ) . ':', // Sample Service:
 						'page'        => 'dashboard',
 						'option_name' => 'services',
@@ -431,5 +412,24 @@ abstract class AbstractService {
 				}
 			);
 		}
+	}
+
+	/**
+	 * Builds the service slug from service name (same class name).
+	 *
+	 * @return bool
+	 * @since 1.0.0
+	 */
+	private function service_key(): bool {
+
+		$this->service_key = Helper::make_service_key(
+			str_replace(
+				'WPS\\Services\\Controllers\\',
+				'',
+				get_class( $this )
+			)
+		);
+
+		return isset( get_option( PLUGIN_PREFIX . '_services' )[ $this->service_key ] );
 	}
 }
