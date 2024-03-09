@@ -16,7 +16,8 @@ use WPS\Core\Dashboard;
 use WPS\Core\DotEnv;
 use WPS\Core\Enqueue;
 use WPS\Core\Notice;
-use WPS\Core\ServiceSlug;
+use WPS\Core\SelfUpdateChecker;
+use WPS\Core\ServiceKey;
 use WPS\Core\TwigTemplate;
 use WPS\Core\UpdateChecker;
 use function DI\create;
@@ -42,22 +43,23 @@ final class App {
 			 | Base configs, For setting up this plugin.
 			 |-------------------------------------------------------------------------
 			 */
-			'dot_env'         => DotEnv::class,
-			'enqueue'         => Enqueue::class,
-			'action_link'     => ActionLink::class,
-			'twig_template'   => TwigTemplate::class,
-			'update_checker'  => UpdateChecker::class,
+			'dot_env'             => DotEnv::class,
+			'enqueue'             => Enqueue::class,
+			'action_link'         => ActionLink::class,
+			'twig_template'       => TwigTemplate::class,
+			'update_checker'      => UpdateChecker::class,
+			'self_update_checker' => SelfUpdateChecker::class,
 
 			/*
 			 |-------------------------------------------------------------------------
 			 | Admin configs, For implement admin dashboard of plugin.
 			 |-------------------------------------------------------------------------
 			 */
-			'admin_dashboard' => Dashboard::class,
+			'admin_dashboard'     => Dashboard::class,
 		) );
 
 		App::register_modules(
-			array_merge( $base_modules, ( new ServiceSlug() )->slugs )
+			array_merge( $base_modules, ( new ServiceKey() )->keys )
 		);
 	}
 
