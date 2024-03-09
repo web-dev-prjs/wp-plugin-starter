@@ -20,16 +20,43 @@ use WPS\Core\Notice;
 class Helper {
 
 	/**
-	 * Returns a slug of class in the form of lowercase.
+	 * Makes the slug (such as word-word) based-on a specific name.
+	 *
+	 * @param string $string Name of a string, such as a plugin name.
+	 *
+	 * @return string Slug of entry name.
+	 * @since 1.0.0
+	 */
+	public static function make_plugin_slug( string $string ): string {
+
+		$chars = str_split( $string );
+
+		$plugin_slug = '';
+
+		while ( sizeof( $chars ) ) {
+			$char = array_shift( $chars );
+
+			if ( ' ' === $char ) {
+				$plugin_slug .= '-';
+			} else {
+				$plugin_slug .= strtolower( $char );
+			}
+		}
+
+		return $plugin_slug;
+	}
+
+	/**
+	 * Returns a key of class in the form of lowercase.
 	 *
 	 * @param string $name The name of class or file.
 	 *
 	 * @return string
 	 * @since 1.0.0
 	 */
-	public static function make_lower_slug( string $name ): string {
+	public static function make_service_key( string $name ): string {
 
-		$slug = '';
+		$service_key = '';
 
 		$chars = str_split( $name );
 
@@ -37,14 +64,14 @@ class Helper {
 			$char = array_shift( $chars );
 
 			if ( $char !== strtoupper( $char ) ) {
-				$slug .= $char;
+				$service_key .= $char;
 			} else {
-				$char_lower = strtolower( $char );
-				$slug       .= empty( $slug ) ? $char_lower : '_' . $char_lower;
+				$char_lower  = strtolower( $char );
+				$service_key .= empty( $service_key ) ? $char_lower : '_' . $char_lower;
 			}
 		}
 
-		return $slug;
+		return $service_key;
 	}
 
 	/**
@@ -59,7 +86,7 @@ class Helper {
 
 		preg_match(
 			'/(((\/\w*|\w*)\/' . $page_name . '\/)|(\w*' . $page_name . '))/',
-			$_SERVER['REQUEST_URI'],
+			$_SERVER[ 'REQUEST_URI' ],
 			$matches
 		);
 
@@ -67,7 +94,7 @@ class Helper {
 			return null;
 		}
 
-		return match ( $matches[0] ) {
+		return match ( $matches[ 0 ] ) {
 			"/$page_name/", $page_name => true,
 			default                    => false
 		};
@@ -150,13 +177,12 @@ class Helper {
 	 * 1- With `header` function.
 	 * 2- With `wp_safe_redirect` function.
 	 *
-	 * @see   header(), wp_safe_redirect()
-	 *
 	 * @param string $type      Type of redirect, includes: `header` or `wsr`
 	 * @param string $URL       An URL of destination
 	 * @param bool   $permanent Type of redirect, if is `TRUE` be 301, and otherwise 302.
 	 *
 	 * @return void
+	 * @see   header(), wp_safe_redirect()
 	 * @since 1.0.0
 	 */
 	public static function redirect( string $type, string $URL, bool $permanent = false ): void {
