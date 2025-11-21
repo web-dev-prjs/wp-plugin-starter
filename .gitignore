@@ -18,6 +18,7 @@ wp-content/*
 
 # ignore composer dependency directories
 /vendor/
+/*.lock
 
 # ignore IDE dependency directories
 .vscode
@@ -27,6 +28,5 @@ wp-content/*
 *.log
 *.sql
 /.env
-/.lock
 /.htaccess
 /.githubtoken
