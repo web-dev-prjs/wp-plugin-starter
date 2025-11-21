@@ -23,7 +23,7 @@ final class ActionLink {
 	 */
 	public function Build(): void {
 
-		add_filter( "plugin_action_links_" . PLUGIN_BASENAME, array( $this, 'action_links' ) );
+		add_filter( "plugin_action_links_" . PLUGIN_BASENAME, [ $this, 'action_links' ] );
 	}
 
 	/**

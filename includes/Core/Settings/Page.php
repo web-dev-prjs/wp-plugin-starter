@@ -28,14 +28,14 @@ trait Page {
 
 		$pages = new stdClass();
 
-		$default_pages = array(
+		$default_pages = [
 			/*
 			 |----------------------------------
 			 | Default plugin main-pages.
 			 |----------------------------------
 			 */
-			'main_pages'   => array(// New main-pages go here...
-				array(
+			'main_pages'   => [// New main-pages go here...
+				[
 					'page_title' => 'Dashboard',
 					'menu_title' => PLUGIN_NAME,
 					'capability' => 'manage_options',
@@ -59,23 +59,23 @@ trait Page {
 					},
 					'icon_url'   => 'dashicons-admin-generic',
 					'position'   => 110
-				)
-			),
+				]
+			],
 			/*
 			 |----------------------------------
 			 | Default plugin sub-pages.
 			 |----------------------------------
 			 */
-			'sub_pages'    => array(// New subpages go here...
-			),
+			'sub_pages'    => [// New subpages go here...
+			],
 			/*
 			 |----------------------------------
 			 | Default plugin sub-pages.
 			 |----------------------------------
 			 */
-			'option_pages' => array(// New option-pages go here...
-			)
-		);
+			'option_pages' => [// New option-pages go here...
+			]
+		];
 
 		/*
 		 |---------------------------------------------------------------------

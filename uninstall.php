@@ -37,7 +37,7 @@ final class uninstall {
 		 | at the deleting time the plugin.
 		 |-----------------------------------------------------------
 		 */
-		delete_option( PLUGIN_ALL_OPTIONS );;
+		delete_option( PLUGIN_ALL_OPTIONS );
 
 		/*
 		 |-----------------------------------------------------------

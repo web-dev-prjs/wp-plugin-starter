@@ -22,44 +22,44 @@ final class SecureLogin extends AbstractService {
 
 	protected function register(): void {
 
-		$actions = array(
+		$actions = [
 			'init'       => 'admin_login_page',
 			'login_head' => 'redirect_to_home_page',
 			'wp_logout'  => 'redirect_in_logout_time',
-		);
+		];
 
 		foreach ( $actions as $hook => $method ) {
-			add_action( $hook, array( new ( '\WPS\Services\Providers\SecureLogin' ), $method ) );
+			add_action( $hook, [ new ( '\WPS\Services\Providers\SecureLogin' ), $method ] );
 		}
 	}
 
-	protected array $service_option_pages = array(
-		'secure_login' => array(
+	protected array $service_option_pages = [
+		'secure_login' => [
 			'position'         => 100,
 			'page_title'       => 'Secure Login',
 			'menu_title'       => 'Secure Login',
 			'capability'       => 'manage_options',
 			'template_name'    => 'admin.pages.secure-login',
-			'template_context' => array(
+			'template_context' => [
 				'fa_icon' => 'fa fa-arrow-right-to-bracket me-2',
-				'data'    => array(
+				'data'    => [
 					'text_button' => 'Change Keyword'
-				)
-			)
-		)
-	);
+				]
+			]
+		]
+	];
 
-	protected array $service_sections = array(
-		'login_keyword' => array()
-	);
+	protected array $service_sections = [
+		'login_keyword' => []
+	];
 
-	protected array $service_fields = array(
-		'login_keyword' => array(
+	protected array $service_fields = [
+		'login_keyword' => [
 			'type'         => 'text',
 			'section_id'   => 'login_keyword',
 			'title'        => 'Login Keyword:',
 			'place_holder' => 'Enter your login keyword!',
 			'class'        => 'p-2',
-		)
-	);
+		]
+	];
 }

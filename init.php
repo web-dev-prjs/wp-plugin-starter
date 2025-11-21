@@ -29,13 +29,13 @@ if ( ! file_exists( PLUGIN_PATH . 'vendor/autoload.php' ) ) {
 	// Activate the plugin.
 	register_activation_hook(
 		PLUGIN_FILE,
-		array( PLUGIN_NAMESPACE . 'Core\Activate', 'activate' )
+		[ PLUGIN_NAMESPACE . 'Core\Activate', 'activate' ]
 	);
 
 	// Deactivate the plugin.
 	register_deactivation_hook(
 		PLUGIN_FILE,
-		array( PLUGIN_NAMESPACE . 'Core\Deactivate', 'deactivate' )
+		[ PLUGIN_NAMESPACE . 'Core\Deactivate', 'deactivate' ]
 	);
 
 	// Load the plugin text-domain
@@ -54,6 +54,6 @@ if ( ! file_exists( PLUGIN_PATH . 'vendor/autoload.php' ) ) {
 		);
 	} else {
 		// Builds the plugin modules.
-		( new ( PLUGIN_NAMESPACE . 'App' ) )->run();
+		(new ( PLUGIN_NAMESPACE . 'App' ))->run();
 	}
 }

@@ -70,7 +70,7 @@ final class ServiceKey {
 			return null;
 		}
 
-		$controllers = array();
+		$controllers = [];
 
 		foreach ( $files as $file ) {
 			if (

@@ -21,7 +21,7 @@ class Setting {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $admin_pages = array();
+	protected array $admin_pages = [];
 
 	/**
 	 * The admin sub-pages variable
@@ -29,7 +29,7 @@ class Setting {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $admin_sub_pages = array();
+	protected array $admin_sub_pages = [];
 
 	/**
 	 * The admin option-pages variable
@@ -37,7 +37,7 @@ class Setting {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $admin_option_pages = array();
+	protected array $admin_option_pages = [];
 
 	/**
 	 * The admin-settings variable
@@ -45,7 +45,7 @@ class Setting {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $admin_settings = array();
+	protected array $admin_settings = [];
 
 	/**
 	 * The admin-sections variable
@@ -53,7 +53,7 @@ class Setting {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $admin_sections = array();
+	protected array $admin_sections = [];
 
 	/**
 	 * The admin-field variable
@@ -61,7 +61,7 @@ class Setting {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $admin_fields = array();
+	protected array $admin_fields = [];
 
 	/**
 	 * Creates admin pages and sub-pages.
@@ -96,7 +96,7 @@ class Setting {
 	protected function set_pages( array $pages ): Setting {
 
 		foreach ( $pages as $page ) {
-			$this->admin_pages[] = array(
+			$this->admin_pages[] = [
 				'page_title' => $page['page_title'],
 				'menu_title' => $page['menu_title'],
 				'capability' => $page['capability'],
@@ -104,7 +104,7 @@ class Setting {
 				'callback'   => ( $page['callback'] ?? null ),
 				'icon_url'   => $page['icon_url'],
 				'position'   => $page['position'],
-			);
+			];
 		}
 
 		return $this;
@@ -118,12 +118,12 @@ class Setting {
 	 * @return static
 	 * @since 1.0.0
 	 */
-	protected function with_sub_page( string $title = null ): Setting {
+	protected function with_sub_page( ?string $title = null ): Setting {
 
 		$admin_page = $this->admin_pages[0];
 
-		$this->admin_sub_pages = array(
-			array(
+		$this->admin_sub_pages = [
+			[
 				'parent_slug'    => $admin_page['menu_slug'],
 				'sub_page_title' => $admin_page['page_title'],
 				'menu_title'     => $title ?? $admin_page['menu_title'],
@@ -131,8 +131,8 @@ class Setting {
 				'menu_slug'      => $admin_page['menu_slug'],
 				'callback'       => ( $admin_page['callback'] ?? null ),
 				'position'       => $admin_page['position']
-			)
-		);
+			]
+		];
 
 		return $this;
 	}
@@ -148,7 +148,7 @@ class Setting {
 	protected function set_sub_pages( array $sub_pages ): Setting {
 
 		foreach ( $sub_pages as $sub_page ) {
-			$this->admin_sub_pages[] = array(
+			$this->admin_sub_pages[] = [
 				'parent_slug'    => PLUGIN_PREFIX . "_{$sub_page['parent_slug']}",
 				'sub_page_title' => $sub_page['sub_page_title'],
 				'menu_title'     => $sub_page['menu_title'],
@@ -156,7 +156,7 @@ class Setting {
 				'menu_slug'      => PLUGIN_PREFIX . "_{$sub_page['sub_page_slug']}",
 				'callback'       => ( $sub_page['callback'] ?? null ),
 				'position'       => $sub_page['position'],
-			);
+			];
 		}
 
 		return $this;
@@ -173,14 +173,14 @@ class Setting {
 	protected function set_option_pages( array $option_pages ): Setting {
 
 		foreach ( $option_pages as $option_page ) {
-			$this->admin_option_pages[] = array(
+			$this->admin_option_pages[] = [
 				'page_title' => $option_page['page_title'],
 				'menu_title' => $option_page['menu_title'],
 				'capability' => $option_page['capability'],
 				'menu_slug'  => PLUGIN_PREFIX . "_{$option_page['menu_slug']}",
 				'callback'   => ( $option_page['callback'] ?? null ),
 				'position'   => $option_page['position']
-			);
+			];
 		}
 
 		return $this;
@@ -197,11 +197,11 @@ class Setting {
 	protected function set_settings( array $settings ): Setting {
 
 		foreach ( $settings as $setting ) {
-			$this->admin_settings[] = array(
+			$this->admin_settings[] = [
 				'option_group' => PLUGIN_PREFIX . "_{$setting['option_group']}_" . OPTION_GROUP_SUFFIX,
 				'option_name'  => PLUGIN_PREFIX . "_{$setting['option_name']}",
 				'callback'     => ( $setting['callback'] ?? null )
-			);
+			];
 		}
 
 		return $this;
@@ -218,12 +218,12 @@ class Setting {
 	protected function set_sections( array $sections ): Setting {
 
 		foreach ( $sections as $section ) {
-			$this->admin_sections[] = array(
+			$this->admin_sections[] = [
 				'id'       => PLUGIN_PREFIX . "_{$section['id']}_" . OPTION_SECTION_SUFFIX,
 				'title'    => "<h5 class='mb-4'>{$section['title']}</h5>",
 				'page'     => PLUGIN_PREFIX . "_{$section['page']}",
 				'callback' => ( $section['callback'] ?? null )
-			);
+			];
 		}
 
 		return $this;
@@ -240,12 +240,12 @@ class Setting {
 	protected function set_fields( array $fields ): Setting {
 
 		foreach ( $fields as $field ) {
-			$this->admin_fields[] = array(
+			$this->admin_fields[] = [
 				'id'       => $field['id'],
 				'title'    => $field['title'],
 				'page'     => PLUGIN_PREFIX . "_{$field['page']}",
 				'section'  => PLUGIN_PREFIX . "_{$field['section']}_" . OPTION_SECTION_SUFFIX,
-				'args'     => array(
+				'args'     => [
 					'field_name'  => $field['id'] ?? null,
 					'type'        => $field['type'] ?? null,
 					'class'       => $field['class'] ?? null,
@@ -254,9 +254,9 @@ class Setting {
 					'attribute'   => $field['attribute'] ?? null,
 					'placeholder' => $field['placeholder'] ?? null,
 					'option_name' => PLUGIN_PREFIX . "_{$field['option_name']}" ?? null,
-				),
+				],
 				'callback' => ( $field['callback'] ?? null )
-			);
+			];
 		}
 
 		return $this;

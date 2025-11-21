@@ -30,40 +30,40 @@ trait Option {
 
 		$options = new stdClass();
 
-		$default_options = array(
+		$default_options = [
 			/*
 			 |----------------------------------
 			 | Default plugin settings.
 			 |----------------------------------
 			 */
-			'settings' => array(// New default settings go here...
-				array(
+			'settings' => [// New default settings go here...
+				[
 					'option_group' => 'dashboard',
 					'option_name'  => 'services', // The name is an array.
-					'callback'     => array( $this, 'service_option_group__callback' )
-				)
-			),
+					'callback'     =>  [ $this, 'service_option_group__callback' ]
+				]
+			],
 			/*
 			 |----------------------------------
 			 | Default plugin sections.
 			 |----------------------------------
 			 */
-			'sections' => array(// New default sections go here...
-				array(
+			'sections' => [// New default sections go here...
+				[
 					'id'       => 'services',
 					'title'    => '<span class="text-dark py-1">Services Section</span>',
 					'page'     => 'dashboard',
-					'callback' => array( $this, 'services_section__callback' )
-				)
-			),
+					'callback' => [ $this, 'services_section__callback' ]
+				]
+			],
 			/*
 			 |----------------------------------
 			 | Default plugin fields.
 			 |----------------------------------
 			 */
-			'fields'   => array(// New default fields go here...
-			)
-		);
+			'fields'   => [// New default fields go here...
+			]
+		];
 
 		/*
 		 |-------------------------------------------------------------------------------

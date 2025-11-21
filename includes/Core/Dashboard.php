@@ -86,7 +86,7 @@ final class Dashboard extends Setting {
 
 		$main_pages = array_merge(
 			$this->pages->main_pages,
-			apply_filters( PLUGIN_PREFIX . '_add_main_pages_endpoint', array() )
+			apply_filters( PLUGIN_PREFIX . '_add_main_pages_endpoint', [] )
 		);
 
 		$this->set_pages(
@@ -108,7 +108,7 @@ final class Dashboard extends Setting {
 
 		$sub_pages = array_merge(
 			$this->pages->sub_pages,
-			apply_filters( PLUGIN_PREFIX . '_add_sub_pages_endpoint', array() )
+			apply_filters( PLUGIN_PREFIX . '_add_sub_pages_endpoint', [] )
 		);
 
 		$this->set_sub_pages(
@@ -128,7 +128,7 @@ final class Dashboard extends Setting {
 
 		$option_pages = array_merge(
 			$this->pages->option_pages,
-			apply_filters( PLUGIN_PREFIX . '_add_option_pages_endpoint', array() )
+			apply_filters( PLUGIN_PREFIX . '_add_option_pages_endpoint', [] )
 		);
 
 		$this->set_option_pages(
@@ -148,7 +148,7 @@ final class Dashboard extends Setting {
 
 		$settings = array_merge(
 			$this->options->settings,
-			apply_filters( PLUGIN_PREFIX . '_add_settings_endpoint', array() )
+			apply_filters( PLUGIN_PREFIX . '_add_settings_endpoint', [] )
 		);
 
 		$this->set_settings(
@@ -168,7 +168,7 @@ final class Dashboard extends Setting {
 
 		$sections = array_merge(
 			$this->options->sections,
-			apply_filters( PLUGIN_PREFIX . '_add_sections_endpoint', array() )
+			apply_filters( PLUGIN_PREFIX . '_add_sections_endpoint', [] )
 		);
 
 		$this->set_sections(
@@ -189,7 +189,7 @@ final class Dashboard extends Setting {
 
 		$fields = array_merge(
 			$this->options->fields,
-			apply_filters( PLUGIN_PREFIX . '_add_fields_endpoint', array() )
+			apply_filters( PLUGIN_PREFIX . '_add_fields_endpoint', [] )
 		);
 
 		$this->set_fields(

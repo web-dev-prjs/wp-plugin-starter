@@ -4,7 +4,7 @@
  * The plugin bootstrap file.
  *
  * @package    wp-plugin-starter
- * @copyright  Copyright (c) 2023, omidhosseini (as webbmakerr).
+ * @copyright  Copyright (c) 2023, omidhosseini (as itsomidho).
  * @wordpress-plugin
  * Plugin Name: WP Plugin Starter
  * Plugin URI: https://github.com/web-dev-prjs/wp-plugin-starter
@@ -14,8 +14,8 @@
  * Requires PHP: 8.0.27
  * Author: Omid Hosseini
  * Author URI: https://omidhosseini.info
- * License: GPL v2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * License: MIT License
+ * License URI: https://opensource.org/licenses/MIT
  * Update URI: https://github.com/web-dev-prjs/wp-plugin-starter
  * Text Domain: wp-plugin-starter
  * Domain Path: /i18n/languages/

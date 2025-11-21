@@ -48,7 +48,7 @@ abstract class AbstractService {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $service_main_pages = array();
+	protected array $service_main_pages = [];
 
 	/**
 	 * The service sub-pages.
@@ -56,7 +56,7 @@ abstract class AbstractService {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $service_sub_pages = array();
+	protected array $service_sub_pages = [];
 
 	/**
 	 * The service option-pages.
@@ -64,7 +64,7 @@ abstract class AbstractService {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $service_option_pages = array();
+	protected array $service_option_pages = [];
 
 	/**
 	 * The service sections.
@@ -72,7 +72,7 @@ abstract class AbstractService {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $service_sections = array();
+	protected array $service_sections = [];
 
 	/**
 	 * The service fields.
@@ -80,7 +80,7 @@ abstract class AbstractService {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected array $service_fields = array();
+	protected array $service_fields = [];
 
 	/**
 	 * Builds the service functionality.
@@ -124,11 +124,11 @@ abstract class AbstractService {
 	 */
 	private function make_main_pages(): AbstractService {
 
-		$service_main_pages = array();
+		$service_main_pages = [];
 
 		if ( sizeof( $this->service_main_pages ) ) {
 			foreach ( $this->service_main_pages as $menu_slug => $service_main_page ) {
-				$service_main_pages[] = array(
+				$service_main_pages[] = [
 					'page_title' => $service_main_page[ 'page_title' ],
 					'menu_title' => $service_main_page[ 'menu_title' ],
 					'capability' => $service_main_page[ 'capability' ],
@@ -146,10 +146,10 @@ abstract class AbstractService {
 							->with_template( $service_main_page[ 'template_name' ] )
 							->with_context( array_merge_recursive(
 								$service_main_page[ 'template_context' ],
-								array( 'data' => array( 'settings_form' => $menu_slug ) )
+								[ 'data' => [ 'settings_form' => $menu_slug ] ]
 							) )->template_render();
 					}
-				);
+				];
 			}
 		}
 
@@ -176,11 +176,11 @@ abstract class AbstractService {
 	 */
 	private function make_sub_pages(): AbstractService {
 
-		$service_sub_pages = array();
+		$service_sub_pages = [];
 
 		if ( sizeof( $this->service_sub_pages ) ) {
 			foreach ( $this->service_sub_pages as $sub_page_slug => $service_sub_page ) {
-				$service_sub_pages[] = array(
+				$service_sub_pages[] = [
 					'parent_slug'    => $service_sub_page[ 'parent_slug' ],
 					'sub_page_title' => $service_sub_page[ 'sub_page_title' ],
 					'menu_title'     => $service_sub_page[ 'menu_title' ],
@@ -198,10 +198,10 @@ abstract class AbstractService {
 							->with_template( $service_sub_page[ 'template_name' ] )
 							->with_context( array_merge_recursive(
 								$service_sub_page[ 'template_context' ],
-								array( 'data' => array( 'settings_form' => $sub_page_slug ) )
+								[ 'data' => [ 'settings_form' => $sub_page_slug ] ]
 							) )->template_render();
 					}
-				);
+				];
 			}
 		}
 
@@ -228,11 +228,11 @@ abstract class AbstractService {
 	 */
 	private function make_option_pages(): AbstractService {
 
-		$service_option_pages = array();
+		$service_option_pages = [];
 
 		if ( sizeof( $this->service_option_pages ) ) {
 			foreach ( $this->service_option_pages as $option_page_slug => $service_option_page ) {
-				$service_option_pages[] = array(
+				$service_option_pages[] = [
 					'page_title' => $service_option_page[ 'page_title' ],
 					'menu_title' => $service_option_page[ 'menu_title' ],
 					'capability' => $service_option_page[ 'capability' ],
@@ -249,10 +249,10 @@ abstract class AbstractService {
 							->with_template( $service_option_page[ 'template_name' ] )
 							->with_context( array_merge_recursive(
 								$service_option_page[ 'template_context' ],
-								array( 'data' => array( 'settings_form' => $option_page_slug ) )
+								[ 'data' => [ 'settings_form' => $option_page_slug ] ]
 							) )->template_render();
 					}
-				);
+				];
 			}
 		}
 
@@ -286,7 +286,7 @@ abstract class AbstractService {
 				$settings[] = array(
 					'option_group' => $this->service_key, // sample_service
 					'option_name'  => $this->service_key, // The name is an array.
-					'callback'     => array( $this, 'option_group_sanitize__callback' )
+					'callback'     => [ $this, 'option_group_sanitize__callback' ]
 				);
 
 				return $settings;
@@ -308,13 +308,13 @@ abstract class AbstractService {
 
 		if ( sizeof( $this->service_sections ) ) {
 			foreach ( $this->service_sections as $id => $section ) {
-				$service_sections[] = array(
+				$service_sections[] = [
 					'id'       => $id, // sample_section
 					'title'    => '<span' . ( empty( $section[ 'class' ] ) ? null : " class={$section['class']}" ) . '>' .
 					              ( empty( $section[ 'title' ] ) ? null : $section[ 'title' ] ) . '</span>', // Sample Section
 					'page'     => $this->service_key,
-					'callback' => array( $this, "{$id}_section__callback" )
-				);
+					'callback' => [ $this, "{$id}_section__callback" ]
+				];
 			}
 		}
 
@@ -341,11 +341,11 @@ abstract class AbstractService {
 	 */
 	private function make_fields(): AbstractService {
 
-		$service_fields = array();
+		$service_fields = [];
 
 		if ( sizeof( $this->service_fields ) ) {
 			foreach ( $this->service_fields as $id => $field ) {
-				$service_fields[] = array(
+				$service_fields[] = [
 					'id'          => $id,                    // sample_option
 					'title'       => $field[ 'title' ],      // Sample Option:
 					'page'        => $this->service_key,     // sample_service
@@ -355,8 +355,8 @@ abstract class AbstractService {
 					'style'       => $field[ 'style' ] ?? null,
 					'attribute'   => $field[ 'attribute' ] ?? null,
 					'placeholder' => $field[ 'place_holder' ] ?? null, // Enter your option name!
-					'callback'    => array( $this, "{$id}_field__callback" )
-				);
+					'callback'    => [ $this, "{$id}_field__callback" ]
+				];
 			}
 		}
 
@@ -388,7 +388,7 @@ abstract class AbstractService {
 				PLUGIN_PREFIX . '_add_fields_endpoint',
 				function ( array $fields ) {
 
-					$fields[] = array(
+					$fields[] = [
 						'id'          => $this->service_key, // sample_service
 						'title'       => ucwords( str_replace(
 								'_',
@@ -402,11 +402,11 @@ abstract class AbstractService {
 						'class'       => '',
 						'style'       => '',
 						'attribute'   => '',
-						'callback'    => array(
+						'callback'    => [
 							PLUGIN_NAMESPACE . 'Core\Callbacks\OptionCallback',
 							'service_field__callback'
-						)
-					);
+						]
+					];
 
 					return $fields;
 				}

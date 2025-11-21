@@ -22,12 +22,12 @@ final class TwigFunction {
 	 *                    * @type string $settings_form Settings-form name.
 	 *                    * @type null|string $button_text Name of button.
 	 *                    * @type bool $show_options Show a collect of options based on a settings name,
-	 *                    *                          Default is TRUE.
+	 *                    * Default is TRUE.
 	 *
 	 * @return string|false
 	 * @since 1.0.0
 	 */
-	public static function make_settings_form( array $data ): bool|string {
+	public static function make_settings_form( array $data ): false|string {
 
 		global $wp_settings_sections;
 

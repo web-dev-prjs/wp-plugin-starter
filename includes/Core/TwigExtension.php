@@ -92,7 +92,7 @@ final class TwigExtension extends AbstractExtension {
 			return null;
 		}
 
-		$custom_functions = array();
+		$custom_functions = [];
 
 		foreach ( $custom_function_slugs as $custom_function_slug ) {
 			$custom_functions[] = TwigExtension::create_custom_function(
@@ -168,11 +168,11 @@ final class TwigExtension extends AbstractExtension {
 
 		TwigExtension::$variables = apply_filters(
 			PLUGIN_PREFIX . '_twig_global_variables_list_endpoint',
-			array(
+			[
 				'client_page_title' => get_the_title(),
 				'admin_page_title'  => get_admin_page_title(),
 				'plugin_version'    => 'v' . PLUGIN_VERSION
-			)
+			]
 		);
 	}
 }

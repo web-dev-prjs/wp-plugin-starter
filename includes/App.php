@@ -37,7 +37,7 @@ final class App {
 	 */
 	public function run(): void {
 
-		$base_modules = apply_filters( PLUGIN_PREFIX . '_base_modules_endpoint', array(
+		$base_modules = apply_filters( PLUGIN_PREFIX . '_base_modules_endpoint', [
 			/*
 			 |-------------------------------------------------------------------------
 			 | Base configs, For setting up this plugin.
@@ -56,7 +56,7 @@ final class App {
 			 |-------------------------------------------------------------------------
 			 */
 			'admin_dashboard'     => Dashboard::class,
-		) );
+		] );
 
 		App::register_modules(
 			array_merge( $base_modules, ( new ServiceKey() )->keys )

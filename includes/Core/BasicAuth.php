@@ -44,13 +44,13 @@ final class BasicAuth {
 			header( 'WWW-Authenticate: Basic realm=Private Area' );
 			header( 'HTTP/1.0 401 Unauthorized' );
 
-			$result = array(
+			$result = [
 				"code"    => "rest_forbidden",
 				"message" => "Sorry, you need proper authentication.",
-				"data"    => array(
+				"data"    => [
 					"status" => 401
-				)
-			);
+				]
+			];
 		} else {
 			if (
 				getenv( strtoupper( PLUGIN_PREFIX ) . '_CONSUMER_KEY' ) === $_SERVER['PHP_AUTH_USER']
@@ -62,13 +62,13 @@ final class BasicAuth {
 				header( 'WWW-Authenticate: Basic realm=Private Area' );
 				header( 'HTTP/1.0 401 Unauthorized' );
 
-				$result = array(
+				$result = [
 					"code"    => "rest_forbidden",
 					"message" => "Sorry, you are not allowed to do that.",
-					"data"    => array(
+					"data"    => [
 						"status" => 403
-					)
-				);
+					]
+				];
 			}
 		}
 

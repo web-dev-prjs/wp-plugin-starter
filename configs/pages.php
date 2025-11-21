@@ -6,12 +6,12 @@
  * @package wp-plugin-starter
  */
 
-const PLUGIN_PAGES = array(
+const PLUGIN_PAGES = [
 	/*
 	 |-----------------------------------------------------------
 	 | Additional main-pages based on the below structure:
 	 |
-	 | array(
+	 | [
 	 |     'position'   => 100,
 	 |     'page_slug'  => '',
 	 |     'page_title' => '',
@@ -27,16 +27,16 @@ const PLUGIN_PAGES = array(
 	 |				->with_context( 'context' )
 	 |				->template_render();
 	 |	   }
-	 | )
+	 | ]
 	 |-----------------------------------------------------------
 	 */
-	'main_pages'   => array(// The new main-pages go here...
-	),
+	'main_pages'   => [// The new main-pages go here...
+	],
 	/*
 	 |-----------------------------------------------------------
 	 | Additional sub-pages based on the below structure:
 	 |
-	 | array(
+	 | [
 	 |     'position'       => 100,
 	 |     'parent_slug'    => '',
 	 |     'sub_page_slug'  => '',
@@ -52,16 +52,16 @@ const PLUGIN_PAGES = array(
 	 |				->with_context( 'context' )
 	 |				->template_render();
 	 |	   }
-	 | )
+	 | ]
 	 |-----------------------------------------------------------
 	 */
-	'sub_pages'    => array(// The new sub-pages go here...
-	),
+	'sub_pages'    => [// The new sub-pages go here...
+	],
 	/*
 	 |-----------------------------------------------------------
 	 | Additional option-pages based on the below structure:
 	 |
-	 | array(
+	 | [
 	 |     'position'   => 100,
 	 |     'page_title' => '',
 	 |     'menu_title' => '',
@@ -76,9 +76,9 @@ const PLUGIN_PAGES = array(
 	 |				->with_context( 'context' )
 	 |				->template_render();
 	 |	   }
-	 | )
+	 | ]
 	 |-----------------------------------------------------------
 	 */
-	'option_pages' => array(// The new option-pages go here...
-	)
-);
+	'option_pages' => [// The new option-pages go here...
+	]
+];

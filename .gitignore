@@ -13,6 +13,8 @@ wp-content/*
 
 # ignore node dependency directories
 /node_modules/
+/package-lock.json
+/yarn.lock
 
 # ignore composer dependency directories
 /vendor/
@@ -25,5 +27,6 @@ wp-content/*
 *.log
 *.sql
 /.env
+/.lock
 /.htaccess
 /.githubtoken

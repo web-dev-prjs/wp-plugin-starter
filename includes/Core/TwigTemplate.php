@@ -26,7 +26,7 @@ final class TwigTemplate {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	private array $context = array();
+	private array $context = [];
 
 	/**
 	 * A flag that indicates which optimizations to apply
@@ -177,7 +177,7 @@ final class TwigTemplate {
 			} else {
 				$env = new Environment(
 					$folder_loader,
-					array(
+					[
 						'debug'            => $this->debug, // bool-type.
 						'charset'          => $this->charset, // string-type.
 						'cache'            => $cache, // string-type (default folder: compilation-cache).
@@ -185,7 +185,7 @@ final class TwigTemplate {
 						'auto_reload'      => $this->auto_reload, // bool-type.
 						'optimizations'    => $this->optimizations, // integer-type.
 						'strict_variables' => $this->strict_variables, // bool-type.
-					)
+					]
 				);
 
 				TwigExtension::build( $env );
